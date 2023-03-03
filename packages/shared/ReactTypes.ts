@@ -15,3 +15,5 @@ export interface ReactElement {
 	__mark: 'LX_TLabs';
 }
 
+
+export type Action<State> = State | ((prevState: State) => State);
