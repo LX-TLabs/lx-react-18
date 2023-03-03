@@ -9,8 +9,13 @@ export class FiberNode {
   pendingProps: Props
   /**
    * 计算完成的Props
-   */
-   memoizedProps: Props | null
+  */
+  memoizedProps: Props | null
+  /**
+   * 对于 HostRoot 来说 memorizedState 存储的是 React Element
+  * TODO: 定义
+  */
+  memorizedState: any;
   key: Key;
   /**
    * 对于 HostComponent 来说  stateNode 就是 HTML Elememnt
@@ -59,6 +64,10 @@ export class FiberNode {
    */
   deletions: FiberNode[] | null;
   tag: WorkTag;
+  /**
+   * TODO:
+   */
+  updateQueue: unknown;
 
 
   constructor(tag: WorkTag, pendingProps: Props, key: Key) {
@@ -79,6 +88,8 @@ export class FiberNode {
     // 状态
     this.pendingProps = pendingProps
     this.memoizedProps = null
+    this.memorizedState = null
+    this.updateQueue = null
 
     // 副作用
 		this.flags = NoFlags;
@@ -174,6 +185,8 @@ export const createWorkInProgress = (
   // TODO: 完善
   // 数据
 	wip.memoizedProps = current.memoizedProps;
+  wip.memoizedProps = current.memorizedState
+  wip.updateQueue = current.updateQueue;
 
   return wip
 }
