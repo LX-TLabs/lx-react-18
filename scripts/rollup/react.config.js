@@ -2,7 +2,7 @@ import {
   getPackageJSON,
   resolvePkgPath,
   getBaseRollupPlugins
-} from './utils.js';
+} from './utils';
 import generatePackageJson from 'rollup-plugin-generate-package-json';
 
 const {

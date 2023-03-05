@@ -84,6 +84,8 @@ export const performSyncWorkOnRoot = (root: FiberRootNode) => {
   const finishedWork = root.current.alternate
   root.finishedWork = finishedWork;
 
+  console.log('finishedWork', finishedWork)
+
   // commitRoot阶段
 }
 

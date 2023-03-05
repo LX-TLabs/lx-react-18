@@ -2,10 +2,8 @@
   "name": "lx-react-18",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
-  "type": "module",
   "scripts": {
-    "build:dev": "rm -rf dist && rollup --bundleConfigAsCjs --config scripts/rollup/dev.config.js",
+    "build:dev": "rm -rf dist && rollup --config scripts/rollup/dev.config.js",
     "demo": "vite serve playground/jsx --config playground/vite.config.js --force",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -17,8 +15,11 @@
     "@babel/plugin-transform-react-jsx": "^7.17.12",
     "@babel/preset-env": "^7.18.6",
     "@babel/preset-react": "^7.18.6",
-    "@rollup/plugin-commonjs": "^24.0.1",
-    "@rollup/plugin-replace": "^5.0.2",
+    "@rollup/plugin-alias": "^3.1.9",
+    "@rollup/plugin-babel": "^5.3.1",
+    "@rollup/plugin-commonjs": "^22.0.1",
+    "@rollup/plugin-node-resolve": "^13.3.0",
+    "@rollup/plugin-replace": "^4.0.0",
     "@vitejs/plugin-react": "^3.1.0",
     "commitlint": "^17.0.2",
     "eslint": "^8.17.0",
@@ -27,9 +28,9 @@
     "husky": "^8.0.1",
     "lint-staged": "^13.0.2",
     "prettier": "^2.7.1",
-    "rollup": "^3.17.3",
+    "rollup": "^2.75.6",
     "rollup-plugin-generate-package-json": "^3.2.0",
-    "rollup-plugin-typescript2": "^0.34.1",
+    "rollup-plugin-typescript2": "^0.32.1",
     "typescript": "^4.7.3",
     "vite": "^4.1.4"
   }
