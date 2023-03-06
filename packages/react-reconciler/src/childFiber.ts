@@ -74,6 +74,9 @@ export const ChildReconciler = (shouldTrackEffects: boolean) => {
   const reconcileSingleElement = (returnFiber: FiberNode,
 		currentFirstChild: FiberNode | null,
 		element: ReactElement): FiberNode => {
+      if (__DEV__) {
+        console.log('进入reconcileSingleElement阶段')
+      }
      // 前：abc 后：a  删除bc
      // 前：a 后：b 删除b、创建a
      // 前：无 后：a 创建a

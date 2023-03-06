@@ -77,7 +77,7 @@ export const processUpdateQueue = <State>(
         baseState = action;
       }
       pending = pending?.next as Update<State>;
-    } while (pending === first) // 环链判断
+    } while (pending !== first) // 环链判断
   }
 
   result.memorizedState = newBaseState;

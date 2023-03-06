@@ -12,6 +12,9 @@ import { UpdateQueue, processUpdateQueue } from './updateQueue'
 export const reconcileChildren = (workInProgress: FiberNode, children: any) => {
   // 判断时 mount 还是 update
   const current = workInProgress.alternate
+  if (__DEV__) {
+    console.log('reconcileChildren', current === null ? 'mount阶段' : 'update阶段' )
+  }
   if (current) {
     workInProgress.child = reconcileChildFibers(
       workInProgress,
@@ -33,12 +36,18 @@ export const reconcileChildren = (workInProgress: FiberNode, children: any) => {
  * @returns 
  */
 const updateHostRoot = (workInProgress: FiberNode) => {
+  if (__DEV__) {
+    console.log('进入 updateHostRoot')
+  }
   const baseState = workInProgress.memorizedState;
   const updateQueue = workInProgress.updateQueue as UpdateQueue<ReactElement>
   const pending = updateQueue.shared.pending
   // 执行前 清除工作
   updateQueue.shared.pending = null;
   const { memorizedState } = processUpdateQueue(baseState, pending)
+  if (__DEV__) {
+    console.log('updateHostRoot 计算 memorizedState', memorizedState)
+  }
   workInProgress.memorizedState = memorizedState
 
   const nextChildren = workInProgress.memorizedState
@@ -61,7 +70,7 @@ const updateHostComponent = (workInProgress: FiberNode) => {
 // 生成子Fiber的方法
 export const beginWork = (workInProgress: FiberNode) => {
   if (__DEV__) {
-    console.log('beginWork流程', workInProgress.type);
+    console.log('beginWork流程', workInProgress.tag);
   }
 
   switch (workInProgress.tag) {
