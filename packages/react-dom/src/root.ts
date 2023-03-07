@@ -12,6 +12,7 @@ export const createRoot = (container: Container) => {
   const root = createContainer(container)
   return {
     render(element: ReactElement) {
+      console.log('createRoot element', element)
       return updateContainer(element, root);
     }
   }

@@ -3,6 +3,8 @@ import { FiberNode, FiberRootNode, createWorkInProgress } from './fiber';
 import { HostRoot } from './workTags';
 import { beginWork } from './beginWork'
 import { completeWork } from './completeWork'
+import { MutationMask, NoFlags } from './fiberFlags'
+import { commitMutationEffects } from './commitWork'
 
 let workInProgress: FiberNode | null = null;
 
@@ -54,10 +56,42 @@ const performUnitOfWork = (fiber: FiberNode) => {
 	}
 }
 
+/**
+ * workLoop 循环
+ */
 const workLoop = () => {
   while (workInProgress !== null) {
     performUnitOfWork(workInProgress);
   }
+}
+
+/**
+ * commitRoot commit 阶段 不会被打断
+ * @param root 
+ */
+const commitRoot = (root: FiberRootNode) => {
+  const finishedWork = root.finishedWork;
+
+  if (finishedWork === null) {
+		return;
+	}
+
+  // 判断根节点是否有变更
+  const subtreeHasEffect = (finishedWork.subtreeFlags & MutationMask) !== NoFlags
+  const rootHasEffect = (finishedWork.flags & MutationMask) !== NoFlags;
+  // 根节点有更新 开启更新流程
+  if (subtreeHasEffect || rootHasEffect) {
+		// beforeMutation
+		// mutation
+		commitMutationEffects(finishedWork, root);
+
+		// Fiber Tree切换
+		root.current = finishedWork;
+		// layout
+	} else {
+		// Fiber Tree切换
+		root.current = finishedWork;
+	}
 }
 
 /**
@@ -87,6 +121,7 @@ export const performSyncWorkOnRoot = (root: FiberRootNode) => {
   console.log('finishedWork', finishedWork)
 
   // commitRoot阶段
+  commitRoot(root);
 }
 
 /**

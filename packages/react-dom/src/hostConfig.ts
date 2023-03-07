@@ -21,8 +21,8 @@ export const appendInitialChild = (parent: Instance, child: Instance) => {
 };
 
 export const appendChildToContainer = (
+	container: Container,
 	child: Instance,
-	container: Container
 ) => {
 	container.appendChild(child);
 };

@@ -15,7 +15,7 @@ export const reconcileChildren = (workInProgress: FiberNode, children: any) => {
   if (__DEV__) {
     console.log('reconcileChildren', current === null ? 'mount阶段' : 'update阶段' )
   }
-  if (current) {
+  if (current !== null) {
     workInProgress.child = reconcileChildFibers(
       workInProgress,
       current.child,
@@ -67,6 +67,24 @@ const updateHostComponent = (workInProgress: FiberNode) => {
   return workInProgress.child
 }
 
+/**
+ * 更新 updateFunctionComponent
+ * @param wip 
+ * @param renderLane 
+ * @returns 
+ */
+const updateFunctionComponent = (wip: FiberNode) => {
+	const nextProps = wip.pendingProps;
+  // 赋值操作
+	const Component = wip.type;
+	const props = wip.memoizedProps;
+	const nextChildren = Component(props);
+  console.log('nextChildren', nextChildren)
+
+	reconcileChildren(wip, nextChildren);
+	return wip.child;
+};
+
 // 生成子Fiber的方法
 export const beginWork = (workInProgress: FiberNode) => {
   if (__DEV__) {
@@ -75,7 +93,7 @@ export const beginWork = (workInProgress: FiberNode) => {
 
   switch (workInProgress.tag) {
     case FunctionComponent:
-      return null
+      return updateFunctionComponent(workInProgress)
       // 根节点的情况
     case HostRoot:
       return updateHostRoot(workInProgress)

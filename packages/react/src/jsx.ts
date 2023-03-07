@@ -1,7 +1,7 @@
 import { ElementType, Ref, Key, Props,ReactElement } from "shared/ReactTypes";
 import { REACT_ELEMENT_TYPE } from 'shared/ReactSymbols'
 
-const createReactElememt = (type: ElementType, key: Key, ref: Ref, props: Props ): ReactElement => {
+const createReactElement = (type: ElementType, key: Key, ref: Ref, props: Props ): ReactElement => {
   return {
     $$typeof: REACT_ELEMENT_TYPE,
     type,
@@ -22,6 +22,7 @@ function hasValidRef(config: any) {
 
 
 export const jsx = (type: ElementType, config: any, ...maybeChildren: any) => {
+  console.log('jsx', type, config, maybeChildren)
   let key: Key = null;
   let ref: Ref = null;
   const props: any = {};
@@ -56,5 +57,32 @@ export const jsx = (type: ElementType, config: any, ...maybeChildren: any) => {
       props.children = maybeChildren;
     }
   }
-  return createReactElememt(type, key, ref, props);
+  return createReactElement(type, key, ref, props);
 }
+
+export const jsxDEV = (type: ElementType, config: any) => {
+	// 单独处理 key ref
+	let key: Key = null;
+	const props: Props = {};
+	let ref: Ref = null;
+
+	for (const prop in config) {
+		const val = config[prop];
+		if (prop === 'key') {
+			if (val !== undefined) {
+				key = `${val}`;
+			}
+			continue;
+		}
+		if (prop === 'ref') {
+			if (val !== undefined) {
+				ref = val;
+			}
+			continue;
+		}
+		if ({}.hasOwnProperty.call(config, prop)) {
+			props[prop] = val;
+		}
+	}
+	return createReactElement(type, key, ref, props);
+};

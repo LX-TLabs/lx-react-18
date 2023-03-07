@@ -74,7 +74,7 @@ export const processUpdateQueue = <State>(
       if (action instanceof Function) {
         newBaseState = action(newBaseState)
       } else {
-        baseState = action;
+        newBaseState = action;
       }
       pending = pending?.next as Update<State>;
     } while (pending !== first) // 环链判断

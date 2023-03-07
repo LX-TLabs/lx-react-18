@@ -4,4 +4,4 @@
 //   children: "123"
 // });
 
-export { jsx as jsxDEV } from './src/jsx';
+export { jsxDEV } from './src/jsx';
