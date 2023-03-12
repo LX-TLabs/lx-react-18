@@ -42,8 +42,8 @@ export const enqueueUpdate = <State>(
 }
 
 // 初始化
-export const createUpdateQueue = <Action>() => {
-	const updateQueue: UpdateQueue<Action> = {
+export const createUpdateQueue = <State>() => {
+	const updateQueue: UpdateQueue<State> = {
 		shared: {
 			pending: null
 		},

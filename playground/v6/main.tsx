@@ -1,9 +1,12 @@
+import { useState } from 'react';
 import ReactDOM from 'react-dom/client';
 
 function App() {
+	const [num, setNum] = useState(0)
+	window.setNum = setNum
 	return (
 		<h3>
-			<p>点我 点我~~</p>
+			<p>{num}</p>
 		</h3>
 	);
 }

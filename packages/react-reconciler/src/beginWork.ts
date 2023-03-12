@@ -3,6 +3,7 @@ import { FunctionComponent, HostRoot, HostText, HostComponent } from './workTags
 import { mountChildFibers, reconcileChildFibers } from './childFiber';
 import { ReactElement } from 'shared/ReactTypes'
 import { UpdateQueue, processUpdateQueue } from './updateQueue'
+import { renderWithHooks } from './fiberHook'
 
 /**
  * 生成子节点并进行挂载
@@ -37,7 +38,7 @@ export const reconcileChildren = (workInProgress: FiberNode, children: any) => {
  */
 const updateHostRoot = (workInProgress: FiberNode) => {
   if (__DEV__) {
-    console.log('进入 updateHostRoot')
+    console.log('进入 updateHostRoot workInProgress', workInProgress)
   }
   const baseState = workInProgress.memorizedState;
   const updateQueue = workInProgress.updateQueue as UpdateQueue<ReactElement>
@@ -75,13 +76,10 @@ const updateHostComponent = (workInProgress: FiberNode) => {
  */
 const updateFunctionComponent = (wip: FiberNode) => {
 	const nextProps = wip.pendingProps;
-  // 赋值操作
-	const Component = wip.type;
-	const props = wip.memoizedProps;
-	const nextChildren = Component(props);
-  console.log('nextChildren', nextChildren)
+  const nextChildren = renderWithHooks(wip);
 
 	reconcileChildren(wip, nextChildren);
+	return wip.child;
 	return wip.child;
 };
 

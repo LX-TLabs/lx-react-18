@@ -28,11 +28,6 @@ export default defineConfig({
         replacement: path.resolve(__dirname,
           '../packages/react-reconciler')
       },
-      // {
-      //   find: 'react-noop-renderer',
-      //   replacement: path.resolve(__dirname,
-      //     '../packages/react-noop-renderer')
-      // },
       {
         find: 'hostConfig',
         replacement: path.resolve(
@@ -43,7 +38,7 @@ export default defineConfig({
     ]
   },
   optimizeDeps: {
-    // force: true
-    exclude: ['react', 'react-dom']
+    force: true,
+    exclude: ['* > react', 'react-dom']
   }
 });
